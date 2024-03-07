@@ -3,23 +3,26 @@ numbers = list(map(str, input().split()))
 ans = ''
 
 
-def sol(values, string='', index=0):
+def rec(numbers, hist='', index=0):
     global ans
-    string = string + values[index]
-    if index == len(values) - 1:
-        if eval(string) % 2 == 1:
-            ans = ''
-            for el in string:
-                if el == '+':
-                    ans += '+'
-                elif el == '*':
-                    ans += 'x'
-            return ans
-        return ''
-    sol(values, string+'*', index+1)
-    sol(values, string+'+', index+1)
-    return ans
+    if index == len(numbers) - 1:
+        hist += numbers[-1]
+        if eval(hist) % 2 == 1:
+            ans = hist
+        return
+    hist += numbers[index] + '+'
+    rec(numbers, hist, (index+1))
+    hist = hist[:-1]
+    hist += '*'
+    rec(numbers, hist, (index+1))
 
 
+rec(numbers)
+sol = ''
+for el in ans:
+    if el == '*':
+        sol += 'x'
+    elif el == '+':
+        sol += '+'
 
-print(sol(numbers))
+print(sol)

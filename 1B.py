@@ -1,22 +1,32 @@
 f = list(map(int, input().split(':')))
 s = list(map(int, input().split(':')))
-h = int(input())
+host = int(input())
 
 
-def sol(f, s, h):
+def sol(f, s, host):
     FRoundFcommand, FRoundScommand, SRoundFcommand, SRoundScommand = f[0], f[1], s[0], s[1]
     FGoals, SGoals = FRoundFcommand + SRoundFcommand, FRoundScommand + SRoundScommand
-    if SGoals < FGoals:
-        return 0
-    else:
-        sup = SGoals - FGoals
-        if h == 1:
-            if sup + SRoundFcommand <= SRoundScommand:
-                return sup + 1
+    delta = SGoals - FGoals
+    ans = 0
+    if host == 1:
+        if FGoals <= SGoals:
+            ans += delta
+            SRoundFcommand += delta
+            if SRoundFcommand <= FRoundScommand:
+                return ans + 1
             else:
-                return sup
+                return ans
         else:
-            return sup + 1
+            return 0
+    else:
+        if FGoals <= SGoals:
+            ans += delta
+            if FRoundFcommand <= SRoundScommand:
+                return ans + 1
+            else:
+                return ans
+        else:
+            return 0
 
 
-print(sol(f, s, h))
+print(sol(f, s, host))
